@@ -2,14 +2,6 @@ require "pry"
 
 # Write your code here!
 
-def points_for(player_name)
-  game_hash[:home_team][:players].each do |player|
-    if player[:name] == player_name
-      return player[:points]
-    end
-  end
-end
-
 def game_hash
   {
   :home_team => {
@@ -137,80 +129,168 @@ def game_hash
 }
 end
 
+def num_points_scored(player_name)
+array2 = []
+game_hash.each do |location, team_data|
+    team_data.each do |attribute, values|
+        if attribute == :players
+          values.each do |person, data|
+            data.each do |i, j|
+              if person == player_name && i == :points
+                array2.push(j)
+              end
 
-def num_points_scored(player_n)
-  game_hash.each do |home_away, keys|
-    keys[:players].each do |player|
-      return player[:points] if player[:player_name] == player_n
+            end
+          end
+        end
     end
+end
+return array2[0]
+end
+
+def shoe_size(player)
+  array2 = []
+  game_hash.each do |location, team_data|
+      team_data.each do |attribute, values|
+          if attribute == :players
+            values.each do |person, data|
+              data.each do |i, j|
+                if person == player && i == :shoe
+                  array2.push(j)
+                end
+
+              end
+            end
+          end
+      end
+  end
+  return array2[0]
+end
+
+def team_colors(team)
+  if team == "Charlotte Hornets"
+    game_hash[:away][:colors]
+  elsif team == "Brooklyn Nets"
+    game_hash[:home][:colors]
+  else
+
   end
 end
 
+def team_names
+array2 = []
+  game_hash.each do |location, team_data|
+      team_data.each do |attribute, values|
+          if attribute == :team_name
+                array2.push(values)
 
- # Alternate code
-# def num_points_scored(player_n)
-#   player_stats(player_n)[:points]
+            end
+          end
+  end
+  return array2
+end
+
+
+def player_stats(player_name)
+  array2=[]
+  game_hash.each do |location, team_data|
+      team_data.each do |attribute, values|
+          if attribute == :players
+            values.each do |person, data|
+                if person == player_name
+                  array2.push(data )
+                end
+            end
+          end
+      end
+  end
+  return array2[0]
+end
+
+
+def player_numbers(team)
+  array2 = []
+  game_hash.each do |location, team_data|
+      team_data.each do |attribute, values|
+          if attribute == :players
+            values.each do |person, data|
+              data.each do |i, j|
+                if i == :number
+                  array2.push(j)
+                end
+
+              end
+            end
+          end
+      end
+  end
+  return array2
+end
+
+([1,2,5].reduce(:+).to_f / [1,2,3].length.to_f)
+
+
+#---
+# always have a leader and a writer; leader directs; writer types out the code
+
+# def num_points_scored2(player_name)
+#   game_hash.each do |location, team_data|
+#   if team_data[:players].has_key?(player_name)
+#     return team_data[:players][player_name][:points]
+#     end
+#   end
 # end
 
+def num_points_scored2(player_name)
+  game_hash.each do |location, team_data|
+  if team_data[:players].include?(player_name)
+    return team_data[:players][player_name][:points]
+    end
+  end
+  nil
+end
 
- def shoe_size(player_n)
-  game_hash.each do |home_away, keys|
-    keys[:players].each do |player|
-      return player[:shoe] if player[:player_name] == player_n
+
+num_points_scored2("Ben Gordon")
+
+def find_player_hash(player_name)
+  game_hash.each do |location, team_data|
+    if team_data[:players].include?(player_name)
+      return team_data[:players][player_name]
     end
   end
 end
 
+find_player_hash("Ben Gordon")
 
- # Alternate code
-# def shoe_size(player_n)
-#   player_stats(player_n)[:shoe]
-# end
+def num_points_scored3(player_name)
+  find_player_hash(player_name)[:points]
+end
 
+def shoe_size_2(player_name)
+  find_player_hash(player_name)[:shoe]
+end
 
- def team_colors(team_name)
-  game_hash.each do |home_away, keys|
-    if keys[:team_name] == team_name
-      return keys[:colors].map(&:capitalize)
+def player_stats(player_name)
+  game_hash.keys.each do |team|
+    if game_hash[team][:players].keys.include?(player_name)
+      return game_hash[team][:players][player_name]
     end
   end
 end
 
-
- def team_names
-  game_hash.map {|home_away, keys| keys[:team_name]}
+def find_player_hash_2(player_name)
+  home_players = game_hash[:home][:players]
+  away_players = game_hash[:away][:players]
+  all_players = home_players.merge(away_players)
+  all_players[player_name]
 end
 
+find_player_hash_2("Jeff Adrien")
 
- def player_numbers(team_name)
-  game_hash.each do |home_away, keys|
-    if keys[:team_name] == team_name
-      return keys[:players].map { |player| player[:number] }
-    end
-  end
-end
 
- def player_stats(player_n)
-  game_hash.each do |home_away, keys|
-    keys[:players].each do |player|
-      if player[:player_name] == player_n
-        return player.delete_if { |stat, value| [:player_name].include?(stat)}
-      end
-    end
-  end
-end
+def winning_team
+  away_total = 0
+  home_total = 0
 
- def big_shoe_rebounds
-  biggest = 0
-  rebounds = 0
-  game_hash.each do |home_away, keys|
-    keys[:players].each do |player|
-      size = player[:shoe]
-      if size > biggest
-        biggest = size
-        rebounds = player[:rebounds]
-      end
-    end
-  end
-  rebounds
-end
+game_hash[:away][:players]
