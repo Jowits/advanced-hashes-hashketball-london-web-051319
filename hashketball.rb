@@ -120,27 +120,26 @@ end
 #access both :home->:players and :away->:players
 #both players are arrays...find method that iterates through that array and returns :points
 #must tell program to find it with a name(string) input
-
 def players
-   home_players = game_hash[:home][:players]
-   away_players = game_hash[:away][:players]
-   total_players = home_players + away_players
-   total_players
-  end
+  home_players = game_hash[:home][:players]
+  away_players = game_hash[:away][:players]
+  total_players = home_players + away_players
+  total_players
+end
 
- def num_points_scored(name)
-   find_player = players.find {|player| player.fetch(:player_name) == name }
-   find_player.fetch(:points)
- end
+def num_points_scored(name)
+  find_player = players.find {|player| player.fetch(:player_name) == name }
+  find_player.fetch(:points)
+end
 
- num_points_scored("Brendan Haywood")
+num_points_scored("Brendan Haywood")
 
- def shoe_size(name)
-   find_shoe = players.find {|player| player.fetch(:player_name) == name }
-   find_shoe.fetch(:shoe)
- end
+def shoe_size(name)
+  find_shoe = players.find {|player| player.fetch(:player_name) == name }
+  find_shoe.fetch(:shoe)
+end
 
- shoe_size("Ben Gordon")
+shoe_size("Ben Gordon")
 
 def team_stats
   home_team = game_hash.values_at(:home)
@@ -153,15 +152,15 @@ team_stats
 def team_colors(team_name)
   find_team = team_stats.find {|team| team.fetch(:team_name) == team_name}
   find_team.fetch(:colors)
- end
- team_colors("Brooklyn Nets")
+end
+team_colors("Brooklyn Nets")
 
 def team_names
   team_stats.collect do |team|
-  team[:team_name]
+    team[:team_name]
   end
- end
-  team_names
+end
+team_names
 
 def player_numbers(team_name)
   find_numbers = team_stats.find {|team| team.fetch(:team_name) == team_name}
@@ -171,38 +170,38 @@ def player_numbers(team_name)
 end
 player_numbers("Brooklyn Nets")
 
-def player_stats(name)
-   stats = players.find {|stat| stat.fetch(:player_name) == name}
-   stats
-end
+# def player_stats(name)
+#   stats = players.find {|stat| stat.fetch(:player_name) == name}
+#   stats
+# end
 
 def player_stats(player_name)
-  stats= players.find {|player| player.fetch(:player_name) == player_name}
-   stats.delete_if {|info, string| info == :player_name}
- end
+ stats= players.find {|player| player.fetch(:player_name) == player_name}
+  stats.delete_if {|info, string| info == :player_name}
+end
 
 player_stats("Alan Anderson")
 
-def biggest_shoe
-  players.max_by {|player_shoe| player_shoe.fetch(:shoe)}
-end
+# def biggest_shoe
+#   players.max_by {|player_shoe| player_shoe.fetch(:shoe)}
+# end
 
- biggest_shoe
+# biggest_shoe
 
-def big_shoe_rebounds
-   biggest_shoe.fetch(:rebounds)
-end
+# def big_shoe_rebounds
+#   biggest_shoe.fetch(:rebounds)
+# end
 
- big_shoe_rebounds
+# big_shoe_rebounds
 
-def most_points_scored
-   most = players.max_by {|player_points| player_points.fetch(:points)}
-   most.fetch(:player_name)
-end
-most_points_scored
+# def most_points_scored
+#   most = players.max_by {|player_points| player_points.fetch(:points)}
+#   most.fetch(:player_name)
+# end
+# most_points_scored
 
 def player_with_longest_name
-   most = players.max_by {|player_name| player_name.fetch(:player_name)}
-   most.max {|b,a| b.length <=> a.length}
+  most = players.max_by {|player_name| player_name.fetch(:player_name)}
+  most.max {|b,a| b.length <=> a.length}
 end
 player_with_longest_name
